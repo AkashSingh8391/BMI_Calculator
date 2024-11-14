@@ -11,13 +11,17 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  var wtController=TextEditingController();
-  var ftController=TextEditingController();
-  var itController=TextEditingController();
+
 
 }
 
 class _MyAppState extends State<MyApp> {
+  var wtController=TextEditingController();
+  var ftController=TextEditingController();
+  var itController=TextEditingController();
+
+  String result=" ";
+
   @override
   Widget build(BuildContext context) {
     var ftController;
@@ -39,7 +43,7 @@ class _MyAppState extends State<MyApp> {
                 const Text('BMI',style: TextStyle(
                   fontSize: 34,
                 ),),
-                SizedBox(
+               const SizedBox(
                   height: 21,
                 ),
                 TextField(
@@ -51,7 +55,7 @@ class _MyAppState extends State<MyApp> {
                     controller:wtController,
                   keyboardType: TextInputType.number,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 21,
                 ),
                 TextField(
@@ -63,7 +67,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   keyboardType: TextInputType.number,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 21,
                 ),
                 TextField(
@@ -81,10 +85,37 @@ class _MyAppState extends State<MyApp> {
                 ),
 
                 ElevatedButton(onPressed: (){
+                  var wt=wtController.text.toString();
+                  var ft=ftController.text.toString();
+                  var inch=itController.text.toString();
 
+
+                  if(wt!="" && ft!="" && inch!=""){
+
+                    var iWt=int.parse(wt);
+                    var iFt=int.parse(ft);
+                    var iInch=int.parse(inch);
+
+                    var tInch=(iFt*12)+iInch;
+
+                    var tCm=tInch*2.54;
+
+                    var tM=tCm/100;
+
+                    var bmi=iWt/(tM*tM);
+
+                    result="Your BMI is: ${bmi.toStringAsFixed(2)}";
+
+                  }
+
+                  else{
+                    setState(() {
+                      result="Please fill all the required blanks!!";
+                    });
+                  }
                 },
-                    child:Text('Calculate:') ),
-                Text(''),
+                    child:const Text('Calculate:') ),
+                    Text(result, style: const TextStyle(fontSize: 20),),
 
               ],
             ),
